@@ -1,6 +1,6 @@
 ---
 - name: Create AAP Configuration Filetree from Existing Installation
-  hosts: "{{ target | default('localhost') }}"
+  hosts: all
   become: false
   gather_facts: false
   vars:
