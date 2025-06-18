@@ -26,7 +26,9 @@
         - name: "Set the oauth token to be used"
           ansible.builtin.set_fact:
             aap_oauthtoken: "{{ authtoken_res.json.token }}"
+            controller_oauthtoken: "{{ authtoken_res.json.token }}"
             aap_oauthtoken_url: "{{ authtoken_res.json.url }}"
+            controller_oauthtoken_url: "{{ authtoken_res.json.url }}"
       no_log: "{{ controller_configuration_filetree_create_secure_logging | default('false') }}"
       when: aap_oauthtoken is not defined
 
