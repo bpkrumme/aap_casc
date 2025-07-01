@@ -1,5 +1,5 @@
 ---
-- name: Create a schedule for an existing Job Template
+- name: Create a Patching schedule
   hosts: all
   become: false
   gather_facts: false
@@ -41,10 +41,11 @@
         start_time: "{{ schedule_time }}"
         start_date_def: "{{ start_year }}-{{ start_month }}-{{ start_day }} {{ start_time }}"
         controller_schedules:
-          - name: Patching {{ schedule_limit }} at {{ schedule_rrule }}
+          - name: Patching {{ schedule_limit }} at {{ start_date_def }}
             description: Patching specific inventory hosts at specified time
             unified_job_template: PATCH - Install Updates and Reboot
             rrule: "{{ lookup('ansible.controller.schedule_rrule', 'none', start_date=(start_date_def)) }}"
+            limit: "{{ schedule_limit }}"
 
 
   post_tasks:
