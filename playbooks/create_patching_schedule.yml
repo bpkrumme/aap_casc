@@ -10,11 +10,11 @@
     aap_validate_certs: "{{ vault_aap_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) }}"
     controller_validate_certs: "{{ vault_aap_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) }}"
   pre_tasks:
-    - name: "Set up Authentication"
+    - name: Set up Authentication
       block:
-        - name: "Get token for future requests"
+        - name: Get token for future requests
           ansible.builtin.uri:
-            url: "https://{{ aap_hostname }}/api/gateway/v1/tokens/"
+            url: https://{{ aap_hostname }}/api/gateway/v1/tokens/
             user: "{{ aap_username }}"
             password: "{{ aap_password }}"
             method: POST
@@ -23,7 +23,7 @@
             status_code: 201
           register: authtoken_res
 
-        - name: "Set the oauth token to be used"
+        - name: Set the oauth token to be used
           ansible.builtin.set_fact:
             aap_oauthtoken: "{{ authtoken_res.json.token }}"
             controller_oauthtoken: "{{ authtoken_res.json.token }}"
@@ -47,11 +47,10 @@
             rrule: "{{ lookup('ansible.controller.schedule_rrule', 'none', start_date=(start_date_def)) }}"
             limit: "{{ schedule_limit }}"
 
-
   post_tasks:
-    - name: "Delete the Authentication Token used"
+    - name: Delete the Authentication Token used
       ansible.builtin.uri:
-        url: "https://{{ aap_hostname }}{{ aap_oauthtoken_url }}"
+        url: https://{{ aap_hostname }}{{ aap_oauthtoken_url }}
         user: "{{ aap_username }}"
         password: "{{ aap_password }}"
         method: DELETE
