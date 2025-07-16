@@ -1,0 +1,32 @@
+---
+- hosts: localhost
+  become: false
+  gather_facts: false
+#  vars:
+#    ansible_python_interpreter: /var/swiftcore/awx/bin/python3
+
+  tasks:
+#    - name: Normalize input - replace commas/newlines with newline
+#      set_fact:
+#        survey_wfs_new: "{{ survey_wfs | regex_replace('[,\\n]+', '\n') }}"
+#
+#    - name: Split input into list of workflow IDs as strings
+#      set_fact:
+#        wfs_export_str: "{{ survey_wfs_new.split('\n') | reject('equalto', '') | map('trim') | list }}"
+#
+#    - name: Convert workflow IDs strings to integers
+#      set_fact:
+#        wfs_export: "{{ wfs_export_str | map('int') | list }}"
+#
+#    - name: Debug workflow IDs list (integers)
+#      debug:
+#        msg: "wfs_export is {{ wfs_export }} (type: {{ wfs_export | type_debug }})"
+#
+    - name: Export workflows one by one (single integer per call)
+      ansible.controller.export:
+        workflow_job_templates: "{{ survey_wfs }}"
+      register: export_output
+
+    - name: Show export output
+      ansible.builtin.debug:
+        msg: "{{ export_output }}"
