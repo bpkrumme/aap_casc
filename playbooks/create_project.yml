@@ -37,7 +37,7 @@
   tasks:
     - name: Create the project
       ansible.controller.project:
-        controller_hostname: "{{ aap_hostname }}"
+        controller_host: "{{ aap_hostname }}"
         controller_username: "{{ aap_username }}"
         controller_oauthtoken: "{{ aap_oauthtoken }}"
         name: "{{ project_name }}"
