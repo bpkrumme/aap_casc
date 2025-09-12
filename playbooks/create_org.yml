@@ -37,9 +37,9 @@
   tasks:
     - name: Create the Organization
       ansible.platform.organization:
-        aap_hostname: "{{ aap_hostname }}"
-        aap_username: "{{ aap_username }}"
-        aap_token: "{{ aap_oauthtoken }}"
+        gateway_hostname: "{{ aap_hostname }}"
+        gateway_username: "{{ aap_username }}"
+        gateway_token: "{{ aap_oauthtoken }}"
         name: "{{ org_name }}"
         state: present
 
