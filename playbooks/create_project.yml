@@ -20,7 +20,7 @@
             user: "{{ aap_username }}"
             password: "{{ aap_password }}"
             method: POST
-            force_basic_auth: truenizational Structure & Acc
+            force_basic_auth: true
             validate_certs: false
             status_code: 201
           register: authtoken_res
