@@ -37,6 +37,9 @@
   tasks:
     - name: Create the Organization
       ansible.controller.organization:
+        controller_host: "{{ aap_hostname }}"
+        controller_username: "{{ aap_username }}"
+        aap_token: "{{ aap_oauthtoken }}"
         name: "{{ org_name }}"
         state: present
 
