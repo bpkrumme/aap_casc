@@ -1,5 +1,6 @@
 ---
-- hosts: localhost
+- name: Export Workflow Job Templates as JSON Objects
+  hosts: all
   become: false
   gather_facts: false
 #  vars:
