@@ -1,0 +1,10 @@
+---
+- name: Synchronize Automation Hub Collection Repositories
+  hosts: all
+  become: false
+  tasks:
+    - name: Synchronize the Repositories
+      ansible.hub.collection_repository_sync:
+        name: "{{ hub_repo_name }}"
+        wait: true
+        
