@@ -5,6 +5,5 @@
   tasks:
     - name: Synchronize the Repositories
       ansible.hub.collection_repository_sync:
-        name: "{{ hub_repo_name }}"
-        wait: true
-        
+        name: "{{ item }}"
+      loop: "{{ repository_name }}"
