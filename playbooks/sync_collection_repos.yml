@@ -8,7 +8,7 @@
       ansible.hub.collection_repository_sync:
         ah_host: "{{ lookup('env', 'CONTROLLER_HOST') }}"
         ah_username: "{{ lookup('env', 'CONTROLLER_USERNAME') }}"
-        ah_token: "{{ lookup('env', 'CONTROLLER_OAUTH_TOKEN') }}"
+        ah_password: "{{ lookup('env', 'CONTROLLER_PASSWORD') }}"
         validate_certs: "{{ lookup('env', 'CONTROLLER_VERIFY_SSL') }}"
         name: "{{ item }}"
       loop: "{{ repository_name }}"
