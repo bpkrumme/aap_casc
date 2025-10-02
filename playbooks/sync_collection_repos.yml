@@ -2,8 +2,13 @@
 - name: Synchronize Automation Hub Collection Repositories
   hosts: all
   become: false
+  gather_facts: false
   tasks:
     - name: Synchronize the Repositories
       ansible.hub.collection_repository_sync:
+        ah_host: "{{ lookup('env', 'CONTROLLER_HOST') }}"
+        ah_username: "{{ lookup('env', 'CONTROLLER_USERNAME') }}"
+        ah_token: "{{ lookup('env', 'CONTROLLER_OAUTH_TOKEN') }}"
+        validate_certs: "{{ lookup('env', 'CONTROLLER_VERIFY_SSL') }}"
         name: "{{ item }}"
       loop: "{{ repository_name }}"
