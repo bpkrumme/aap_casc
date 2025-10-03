@@ -3,31 +3,60 @@
   hosts: all
   become: false
   gather_facts: false
-#  vars:
-#    ansible_python_interpreter: /var/swiftcore/awx/bin/python3
+
+  vars:
+    aap_username: "{{ vault_aap_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
+    aap_password: "{{ vault_aap_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
+    aap_hostname: "{{ vault_aap_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
+    aap_validate_certs: "{{ vault_aap_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) }}"
+    controller_validate_certs: "{{ aap_validate_certs }}"
+
+  pre_tasks:
+    - name: Set up Authentication
+      block:
+        - name: Get token for future requests
+          ansible.builtin.uri:
+            url: https://{{ aap_hostname }}/api/gateway/v1/tokens/
+            user: "{{ aap_username }}"
+            password: "{{ aap_password }}"
+            method: POST
+            force_basic_auth: true
+            validate_certs: false
+            status_code: 201
+          register: authtoken_res
+
+        - name: Set the oauth token to be used
+          ansible.builtin.set_fact:
+            aap_oauthtoken: "{{ authtoken_res.json.token }}"
+            controller_oauthtoken: "{{ authtoken_res.json.token }}"
+            aap_oauthtoken_url: "{{ authtoken_res.json.url }}"
+            controller_oauthtoken_url: "{{ authtoken_res.json.url }}"
+      no_log: "{{ controller_configuration_filetree_create_secure_logging | default('false') }}"
+      when: aap_oauthtoken is not defined
 
   tasks:
-#    - name: Normalize input - replace commas/newlines with newline
-#      set_fact:
-#        survey_wfs_new: "{{ survey_wfs | regex_replace('[,\\n]+', '\n') }}"
-#
-#    - name: Split input into list of workflow IDs as strings
-#      set_fact:
-#        wfs_export_str: "{{ survey_wfs_new.split('\n') | reject('equalto', '') | map('trim') | list }}"
-#
-#    - name: Convert workflow IDs strings to integers
-#      set_fact:
-#        wfs_export: "{{ wfs_export_str | map('int') | list }}"
-#
-#    - name: Debug workflow IDs list (integers)
-#      debug:
-#        msg: "wfs_export is {{ wfs_export }} (type: {{ wfs_export | type_debug }})"
-#
+
     - name: Export workflows one by one (single integer per call)
       ansible.controller.export:
+        controller_host: "{{ aap_hostname }}"
+        controller_username: "{{ aap_username }}"
+        aap_token: "{{ aap_oauthtoken }}"
+        validate_certs: "{{ aap_validate_certs }}"
         workflow_job_templates: "{{ survey_wfs }}"
       register: export_output
 
     - name: Show export output
       ansible.builtin.debug:
         msg: "{{ export_output }}"
+
+  post_tasks:
+    - name: Delete the Authentication Token used
+      ansible.builtin.uri:
+        url: https://{{ aap_hostname }}{{ aap_oauthtoken_url }}
+        user: "{{ aap_username }}"
+        password: "{{ aap_password }}"
+        method: DELETE
+        force_basic_auth: true
+        validate_certs: "{{ aap_validate_certs }}"
+        status_code: 204
+      when: aap_oauthtoken_url is defined
