@@ -5,11 +5,11 @@
   gather_facts: false
   tasks:
     - name: Synchronize the Registries
-      ansible.hub.ah_ee_registry_sync:
+      loop: "{{ registry_name }}"
+      redhat_cop.ah_configuration.ah_ee_registry_sync:
         ah_host: "{{ lookup('env', 'CONTROLLER_HOST') }}"
         ah_username: "{{ lookup('env', 'CONTROLLER_USERNAME') }}"
         ah_password: "{{ lookup('env', 'CONTROLLER_PASSWORD') }}"
         validate_certs: "{{ lookup('env', 'CONTROLLER_VERIFY_SSL') }}"
         wait: false
         name: "{{ item }}"
-      loop: "{{ registry_name }}"
