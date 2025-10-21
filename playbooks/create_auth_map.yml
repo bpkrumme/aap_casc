@@ -51,6 +51,7 @@
           groups:
             has_and:
               - "{{ auth_map_ldap_group }}"
+        order: 1
   post_tasks:
     - name: Delete the Authentication Token used
       ansible.builtin.uri:
