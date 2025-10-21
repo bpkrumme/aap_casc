@@ -40,6 +40,7 @@
         aap_hostname: "{{ aap_hostname }}"
         aap_username: "{{ aap_username }}"
         aap_token: "{{ aap_oauthtoken }}"
+        aap_validate_certs: false
         name: "{{ auth_map_name }}"
         authenticator: "{{ auth_map_authenticator }}"
         revoke: true
