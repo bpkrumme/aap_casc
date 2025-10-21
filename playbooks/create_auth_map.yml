@@ -41,6 +41,7 @@
         authenticator: "{{ auth_map_authenticator }}"
         revoke: true
         map_type: "{{ auth_map_type }}"
+        role: "{{ auth_map_role }}"
         triggers:
           groups:
             has_and:
