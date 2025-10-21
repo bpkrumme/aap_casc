@@ -46,6 +46,7 @@
         revoke: true
         map_type: "{{ auth_map_type }}"
         role: "{{ auth_map_role }}"
+        organization: "{{ auth_map_org | default(omit) }}"
         triggers:
           groups:
             has_and:
