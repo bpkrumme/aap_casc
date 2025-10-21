@@ -37,6 +37,9 @@
   tasks:
     - name: Create the Auth Mapping
       ansible.platform.authenticator_map:
+        aap_hostname: "{{ aap_hostname }}"
+        aap_username: "{{ aap_username }}"
+        aap_token: "{{ aap_oauthtoken }}"
         name: "{{ auth_map_name }}"
         authenticator: "{{ auth_map_authenticator }}"
         revoke: true
