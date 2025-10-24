@@ -60,6 +60,9 @@
         headers:
           Content-Type: application/json
           Authorization: Bearer ZjPDpIS2jrHCARxCXlvEunazs0HnfD
+        status_code:
+          - 200
+          - 204
 
 
 
