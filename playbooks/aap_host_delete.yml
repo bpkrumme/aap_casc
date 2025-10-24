@@ -37,7 +37,7 @@
   tasks:
     - name: Lookup id of controller host
       ansible.builtin.debug: 
-        msg: "Matching host id: {{ query('ansible.controller.controller_api', 'hosts', query_params={ 'name': vm_name }) | map(attribute='id') | join }}"
+        msg: "Matching host id: {{ query('ansible.controller.controller_api', 'host_metrics', query_params={ 'hostname': vm_name }) | map(attribute='id') | join }}"
 
     - name: Delete the host
       ansible.controller.bulk_host_delete:
@@ -45,7 +45,7 @@
         controller_username: "{{ aap_username }}"
         controller_oauthtoken: "{{ aap_oauthtoken }}"
         hosts: 
-          - "{{ query('ansible.controller.controller_api', 'host_metrics', query_params={ 'name': vm_name }) | map(attribute='id') | join }}"
+          - "{{ query('ansible.controller.controller_api', 'host_metrics', query_params={ 'hostname': vm_name }) | map(attribute='id') | join }}"
         validate_certs: false
 
   post_tasks:
