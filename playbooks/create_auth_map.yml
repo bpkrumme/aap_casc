@@ -35,23 +35,25 @@
       when: aap_oauthtoken is not defined
 
   tasks:
-    - name: Create the Auth Mapping
+    - name: Create the Auth Mapping from LDAP group(s)
       ansible.platform.authenticator_map:
         aap_hostname: "{{ aap_hostname }}"
         aap_username: "{{ aap_username }}"
         aap_token: "{{ aap_oauthtoken }}"
         aap_validate_certs: false
-        name: "{{ auth_map_name }}"
         authenticator: "{{ auth_map_authenticator }}"
-        revoke: true
         map_type: "{{ auth_map_type }}"
-        role: "{{ auth_map_role }}"
+        name: "{{ auth_map_name }}"
+        order: 1
         organization: "{{ auth_map_org | default(omit) }}"
+        revoke: true
+        role: "{{ auth_map_role }}"
+        team: "{{ auth_map_team | default(omit) }}"
         triggers:
           groups:
             has_and:
               - "{{ auth_map_ldap_group }}"
-        order: 1
+        
   post_tasks:
     - name: Delete the Authentication Token used
       ansible.builtin.uri:
