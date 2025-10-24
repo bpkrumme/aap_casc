@@ -59,14 +59,11 @@
         validate_certs: false
         headers:
           Content-Type: application/json
-          Authorization: Bearer ZjPDpIS2jrHCARxCXlvEunazs0HnfD
+#          Authorization: Bearer ZjPDpIS2jrHCARxCXlvEunazs0HnfD
+          Authorization: Bearer {{ aap_oauthtoken }}
         status_code:
           - 200
           - 204
-
-
-
-
 
   post_tasks:
     - name: Delete the Authentication Token used
