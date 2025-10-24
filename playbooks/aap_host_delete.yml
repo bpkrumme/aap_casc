@@ -65,7 +65,7 @@
           - 200
           - 204
       register: delete_result
-      changed_when: delete_result.msg == "OK"
+      changed_when: '"OK" in delete_result.msg'
 
   post_tasks:
     - name: Delete the Authentication Token used
