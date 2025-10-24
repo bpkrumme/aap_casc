@@ -64,7 +64,8 @@
         status_code:
           - 200
           - 204
-      changed_when: result.msg == "OK"
+      register: delete_result
+      changed_when: delete_result.msg == "OK"
 
   post_tasks:
     - name: Delete the Authentication Token used
