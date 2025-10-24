@@ -39,14 +39,14 @@
       ansible.builtin.debug: 
         msg: "Matching host id: {{ query('ansible.controller.controller_api', 'hosts', query_params={ 'name': vm_name }) | map(attribute='id') | join }}"
 
-#    - name: Delete the host
-#      ansible.controller.bulk_host_delete:
-#        controller_host: "{{ aap_hostname }}"
-#        controller_username: "{{ aap_username }}"
-#        controller_oauthtoken: "{{ aap_oauthtoken }}"
-#        hosts: 
-#          - "{{ vm_id }}"
-#        validate_certs: false
+    - name: Delete the host
+      ansible.controller.bulk_host_delete:
+        controller_host: "{{ aap_hostname }}"
+        controller_username: "{{ aap_username }}"
+        controller_oauthtoken: "{{ aap_oauthtoken }}"
+        hosts: 
+          - "{{ query('ansible.controller.controller_api', 'hosts', query_params={ 'name': vm_name }) | map(attribute='id') | join }}"
+        validate_certs: false
 
   post_tasks:
     - name: Delete the Authentication Token used
