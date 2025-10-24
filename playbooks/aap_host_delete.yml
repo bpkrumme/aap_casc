@@ -35,22 +35,9 @@
       when: aap_oauthtoken is not defined
 
   tasks:
-    - name: Lookup id in host metrics
-      ansible.builtin.debug: 
-        msg: "Matching host metric id: {{ query('ansible.controller.controller_api', 'host_metrics', query_params={ 'hostname': vm_name }) | map(attribute='id') | join }}"
-
     - name: Set the hm_id fact
       ansible.builtin.set_fact:
         hm_id: "{{ query('ansible.controller.controller_api', 'host_metrics', query_params={ 'hostname': vm_name }) | map(attribute='id') | join }}"
-
-#    - name: Delete the host
-#      ansible.controller.bulk_host_delete:
-#        controller_host: "{{ aap_hostname }}"
-#        controller_username: "{{ aap_username }}"
-#        controller_oauthtoken: "{{ aap_oauthtoken }}"
-#        hosts: 
-#          - "{{ query('ansible.controller.controller_api', 'hosts', query_params={ 'name': vm_name }) | map(attribute='id') | join }}"
-#        validate_certs: false
 
     - name: Delete host from host metrics via URI
       ansible.builtin.uri:
@@ -59,7 +46,6 @@
         validate_certs: false
         headers:
           Content-Type: application/json
-#          Authorization: Bearer ZjPDpIS2jrHCARxCXlvEunazs0HnfD
           Authorization: Bearer {{ aap_oauthtoken }}
         status_code:
           - 200
