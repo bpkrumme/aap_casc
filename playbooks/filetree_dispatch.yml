@@ -1,6 +1,6 @@
 ---
 - name: Create AAP Configuration Filetree from Existing Installation
-  hosts: all
+  hosts: localhost
   become: false
   gather_facts: false
   vars:
