@@ -34,10 +34,6 @@
       no_log: "{{ controller_configuration_filetree_create_secure_logging | default('false') }}"
       when: aap_oauthtoken is not defined
 
-    - name: ensure AWXKIT is installed
-      ansible.builtin.pip:
-        name: awxkit
-
   tasks:
 
     - name: Export workflows one by one (single integer per call)
