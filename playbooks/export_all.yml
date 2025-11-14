@@ -40,7 +40,7 @@
       ansible.controller.export:
         controller_host: "{{ aap_hostname }}"
         controller_username: "{{ aap_username }}"
-        aap_token: "{{ aap_oauthtoken }}"
+        controller_token: "{{ aap_oauthtoken }}"
         validate_certs: "{{ aap_validate_certs }}"
         all: true
       register: export_output
