@@ -16,8 +16,7 @@ jobs:
       - name: Run ansible-lint
         uses: ansible/ansible-lint@main
         with:
-          args: "--offline
-          gh_action_ref: "<version -e.g. `v25.5.0`>"
+          args: "--offline"
           setup_python: true
           working_directory: ""
           requirements_file: ""
