@@ -1,5 +1,5 @@
 ---
-- name: lookup and debug using schedule_rrule plugin
+- name: Lookup and debug using schedule_rrule plugin
   hosts: localhost
   become: false
   gather_facts: false
@@ -10,6 +10,6 @@
     start_time: '13:00:00'
     start_date_def: "{{ start_year }}-{{ start_month }}-{{ start_day }} {{ start_time }}"
   tasks:
-    - name: show debug output of lookup plugin
+    - name: Show debug output of lookup plugin
       ansible.builtin.debug:
         msg: "{{ lookup('ansible.controller.schedule_rrule', 'none', start_date=(start_date_def)) }}"

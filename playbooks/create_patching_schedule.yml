@@ -11,6 +11,8 @@
     controller_validate_certs: "{{ aap_validate_certs }}"
   pre_tasks:
     - name: Set up Authentication
+      no_log: "{{ controller_configuration_filetree_create_secure_logging | default('false') }}"
+      when: aap_oauthtoken is not defined
       block:
         - name: Get token for future requests
           ansible.builtin.uri:
@@ -29,8 +31,6 @@
             controller_oauthtoken: "{{ authtoken_res.json.token }}"
             aap_oauthtoken_url: "{{ authtoken_res.json.url }}"
             controller_oauthtoken_url: "{{ authtoken_res.json.url }}"
-      no_log: "{{ controller_configuration_filetree_create_secure_logging | default('false') }}"
-      when: aap_oauthtoken is not defined
 
   roles:
     - role: infra.aap_configuration.controller_schedules
