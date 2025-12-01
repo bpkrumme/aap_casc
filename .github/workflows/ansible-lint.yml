@@ -4,6 +4,7 @@ name: "ansible-lint"
 on:  # yamllint disable-line rule:truthy
   pull_request:
     branches: [main]
+  workflow_run: ""
   schedule:
     - cron: '0 0 * * *'
 
