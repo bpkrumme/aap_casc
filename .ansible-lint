@@ -1,0 +1,17 @@
+---
+# .ansible-lint
+
+profile: production
+
+mock_modules:
+  - ansible.hub.ah_ee_registry_sync
+  - ansible.controller.export
+  - ansible.controller.project
+  - ansible.platform.authenticator_map
+  - ansible.controller.job_template
+  - ansible.platform.organization
+  - ansible.hub.collection_repository_sync
+
+mock_roles:
+  - infra.aap_configuration_extended.filetree_create
+  - infra.aap_configuration.controller_schedules
