@@ -35,15 +35,14 @@
             controller_oauthtoken_url: "{{ authtoken_res.json.url }}"
 
   tasks:
-
     - name: Export all resources
-      ansible.controller.export:
+      register: export_output
+      awx.awx.export:
         controller_host: "{{ aap_hostname }}"
         controller_username: "{{ aap_username }}"
         aap_token: "{{ aap_oauthtoken }}"
         validate_certs: "{{ aap_validate_certs }}"
         all: true
-      register: export_output
 
     - name: Show export output
       ansible.builtin.debug:
