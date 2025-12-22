@@ -40,7 +40,7 @@
 
     - name: Import variables files
       ansible.builtin.include_vars:
-        dir: /tmp/{{ casc_tree_project }}/{{ dispatch_organization }}
+        dir: /tmp/{{ casc_tree_project }}/Default
 
     - name: Run the authenticators role
       ansible.builtin.include_role:
