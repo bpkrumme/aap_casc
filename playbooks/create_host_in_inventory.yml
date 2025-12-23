@@ -35,7 +35,7 @@
             controller_oauthtoken_url: "{{ authtoken_res.json.url }}"
 
   tasks:
-    - name: Create the Auth Mapping from LDAP group(s)
+    - name: Create the Host
       ansible.controller.host:
         inventory: "Master Inventory"
         name: "{{ vm_name }}"
