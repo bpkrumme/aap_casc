@@ -40,7 +40,7 @@
         controller_host: "{{ aap_hostname }}"
         controller_username: "{{ aap_username }}"
         controller_oauthtoken: "{{ aap_oauthtoken }}"
-        inventory: "Master Inventory"
+        inventory: Master Inventory
         name: "{{ vm_name }}"
         variables:
           ansible_host: "{{ virt_ops_ip_addr }}"
