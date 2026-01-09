@@ -11,36 +11,12 @@
     aap_validate_certs: "{{ vault_aap_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) }}"
     controller_validate_certs: "{{ aap_validate_certs }}"
 
-  pre_tasks:
-    - name: Set up Authentication
-      no_log: "{{ controller_configuration_filetree_create_secure_logging | default('false') }}"
-      when: aap_oauthtoken is not defined
-      block:
-        - name: Get token for future requests
-          ansible.builtin.uri:
-            url: https://{{ aap_hostname }}/api/gateway/v1/tokens/
-            user: "{{ aap_username }}"
-            password: "{{ aap_password }}"
-            method: POST
-            force_basic_auth: true
-            validate_certs: false
-            status_code: 201
-          register: authtoken_res
-
-        - name: Set the oauth token to be used
-          ansible.builtin.set_fact:
-            aap_oauthtoken: "{{ authtoken_res.json.token }}"
-            controller_oauthtoken: "{{ authtoken_res.json.token }}"
-            aap_oauthtoken_url: "{{ authtoken_res.json.url }}"
-            controller_oauthtoken_url: "{{ authtoken_res.json.url }}"
-
   tasks:
     - name: Create the Auth Mapping from LDAP group(s)
       ansible.platform.authenticator_map:
         aap_hostname: "{{ aap_hostname }}"
         aap_username: "{{ aap_username }}"
-        aap_token: "{{ aap_oauthtoken }}"
-        aap_validate_certs: false
+        aap_password: "{{ aap_password }}"
         authenticator: "{{ auth_map_authenticator }}"
         map_type: "{{ auth_map_type }}"
         name: "{{ auth_map_name }}"
@@ -54,14 +30,3 @@
             has_and:
               - "{{ auth_map_ldap_group }}"
 
-  post_tasks:
-    - name: Delete the Authentication Token used
-      when: aap_oauthtoken_url is defined
-      ansible.builtin.uri:
-        url: https://{{ aap_hostname }}{{ aap_oauthtoken_url }}
-        user: "{{ aap_username }}"
-        password: "{{ aap_password }}"
-        method: DELETE
-        force_basic_auth: true
-        validate_certs: "{{ aap_validate_certs }}"
-        status_code: 204
