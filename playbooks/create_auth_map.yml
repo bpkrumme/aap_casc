@@ -29,4 +29,3 @@
           groups:
             has_and:
               - "{{ auth_map_ldap_group }}"
-

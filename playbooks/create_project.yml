@@ -13,7 +13,7 @@
 
   tasks:
     - name: Create the project
-      ansible.controller.project:
+      awx.awx.project:
         controller_host: "{{ aap_hostname }}"
         controller_username: "{{ aap_username }}"
         controller_password: "{{ aap_password }}"
@@ -22,4 +22,3 @@
         scm_type: git
         scm_url: "{{ project_url }}"
         state: present
-
