@@ -13,10 +13,10 @@
 
   tasks:
     - name: Delete the Host
-      ansible.controller.host:
+      awx.awx.host:
         controller_host: "{{ aap_hostname }}"
         controller_username: "{{ aap_username }}"
         controller_password: "{{ aap_password }}"
-        inventory: "Master Inventory"
+        inventory: Master Inventory
         name: "{{ vm_name }}"
         state: absent
