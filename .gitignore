@@ -178,6 +178,7 @@ ansible.cfg
 vault.yml
 .password
 .tower_cli.cfg
+clivars.yml
 
 #temporary
 group_vars
